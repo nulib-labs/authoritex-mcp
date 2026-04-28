@@ -1,0 +1,88 @@
+{
+  "manifest_version": "0.3",
+  "name": "authoritex-mcp",
+  "display_name": "Authoritex",
+  "version": "0.1.0",
+  "description": "Search and fetch normalized authority records from library vocabularies via AuthoritexJS.",
+  "long_description": "Authoritex MCP provides tools for searching and fetching normalized authority records from major library vocabularies including LCNAF, LCSH, FAST, GeoNames, and Getty AAT. Includes an interactive search UI.",
+  "author": {
+    "name": "Northwestern University Libraries",
+    "url": "https://github.com/nulib-labs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nulib-labs/authoritex-mcp"
+  },
+  "homepage": "https://github.com/nulib-labs/authoritex-mcp#readme",
+  "support": "https://github.com/nulib-labs/authoritex-mcp/issues",
+  "license": "MIT",
+  "keywords": ["authorities", "library", "lcnaf", "lcsh", "fast", "geonames", "aat", "metadata"],
+  "screenshots": [
+    "assets/claude_example.jpg",
+    "assets/claude_mcpb_install.jpg",
+    "assets/claude_geonames_config.jpg",
+    "assets/mcp-inspector_1.jpg",
+    "assets/mcp-inspector_2.jpg"
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "GEONAMES_USERNAME": "${user_config.geonames_username}",
+        "AUTHORITEX_CACHE_MAX_ENTRIES": "${user_config.cache_max_entries}"
+      }
+    }
+  },
+  "user_config": {
+    "geonames_username": {
+      "type": "string",
+      "title": "GeoNames Username",
+      "description": "Your GeoNames username for geographic authority lookups. Register free at geonames.org.",
+      "sensitive": true,
+      "required": false
+    },
+    "cache_max_entries": {
+      "type": "number",
+      "title": "Cache Max Entries",
+      "description": "Maximum number of in-memory cache entries for search and fetch results.",
+      "required": false,
+      "default": 1000,
+      "min": 1
+    }
+  },
+  "tools": [
+    {
+      "name": "search",
+      "description": "Search an authority source for candidate terms."
+    },
+    {
+      "name": "fetch",
+      "description": "Fetch a normalized authority record by URI or ID."
+    },
+    {
+      "name": "open_authoritex",
+      "description": "Open an interactive Authoritex search and fetch interface."
+    },
+    {
+      "name": "cache_delete_fetch",
+      "description": "Delete currently cached fetch results for an authority URI or ID."
+    },
+    {
+      "name": "cache_delete_search",
+      "description": "Delete currently cached search results for an authority, query, and optional result limit."
+    },
+    {
+      "name": "cache_clear",
+      "description": "Clear all currently cached Authoritex fetch and search results."
+    }
+  ]
+}

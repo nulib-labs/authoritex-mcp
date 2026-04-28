@@ -1,0 +1,50 @@
+{
+  "name": "@nulib/authoritex-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for AuthoritexJS authority search and fetch.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nulib-labs/authoritex-mcp.git"
+  },
+  "homepage": "https://github.com/nulib-labs/authoritex-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/nulib-labs/authoritex-mcp/issues"
+  },
+  "bin": {
+    "authoritex-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "server.json",
+    "manifest.json"
+  ],
+  "mcpName": "io.github.nulib-labs/authoritex-mcp",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod 755 dist/index.js",
+    "serve": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.7.0",
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@nulib/authoritex-js": "^0.1.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "~5.9.3"
+  }
+}

@@ -1,0 +1,97 @@
+name: MCPB Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version without the leading v, for example 0.1.0'
+        required: true
+        type: string
+
+jobs:
+  mcpb-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Extract release version
+        id: version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION="${{ inputs.version }}"
+          fi
+          TAG="v$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "MCPB Release version: $VERSION"
+
+      - name: Verify package and manifest versions
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          MANIFEST_VERSION=$(node -p "require('./manifest.json').version")
+          RELEASE_VERSION="${{ steps.version.outputs.version }}"
+          if [[ "$PACKAGE_VERSION" != "$RELEASE_VERSION" ]]; then
+            echo "package.json version ($PACKAGE_VERSION) does not match release version ($RELEASE_VERSION)"
+            exit 1
+          fi
+          if [[ "$MANIFEST_VERSION" != "$RELEASE_VERSION" ]]; then
+            echo "manifest.json version ($MANIFEST_VERSION) does not match release version ($RELEASE_VERSION)"
+            exit 1
+          fi
+
+      - name: Pack MCPB
+        run: npx -y @anthropic-ai/mcpb pack . authoritex-mcp-${{ steps.version.outputs.version }}.mcpb
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: authoritex-mcp-${{ steps.version.outputs.version }}.mcpb
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Authoritex MCP ${{ steps.version.outputs.tag }}
+          body: |
+            ## Authoritex MCP ${{ steps.version.outputs.version }}
+
+            Search and fetch normalized authority records from library vocabularies (LCNAF, LCSH, FAST, GeoNames, Getty AAT) via [AuthoritexJS](https://github.com/nulib-labs/authoritex-js).
+
+            ### Installation
+            1. Download the `.mcpb` file below
+            2. Double-click to install in Claude Desktop
+            3. Configure options in the installation dialog
+
+            ### Configuration
+            During installation, you can set:
+            - **GeoNames Username**: Required for GeoNames lookups (register free at [geonames.org](https://www.geonames.org/login))
+            - **Cache Max Entries**: Maximum number of in-memory cache entries (default 1000)
+
+            ### Tools
+            - `search` — Search an authority source for candidate terms
+            - `fetch` — Fetch a normalized authority record by URI or ID
+            - `open_authoritex` — Open the interactive Authoritex search and fetch UI
+            - `cache_delete_fetch`, `cache_delete_search`, `cache_clear` — Cache management
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
