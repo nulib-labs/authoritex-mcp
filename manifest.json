@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "authoritex-mcp",
   "display_name": "Authoritex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Search and fetch normalized authority records from library vocabularies via AuthoritexJS.",
-  "long_description": "Authoritex MCP provides tools for searching and fetching normalized authority records from major library vocabularies including LCNAF, LCSH, FAST, GeoNames, and Getty AAT. Includes an interactive search UI.",
+  "long_description": "Authoritex MCP provides tools for searching and fetching normalized authority records from major library vocabularies including LCNAF, LCSH, FAST, GeoNames, Homosaurus, LCGFT, and LC language codes. Includes an interactive search UI.",
   "author": {
     "name": "Northwestern University Libraries",
     "url": "https://github.com/nulib-labs"
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/nulib-labs/authoritex-mcp#readme",
   "support": "https://github.com/nulib-labs/authoritex-mcp/issues",
   "license": "MIT",
-  "keywords": ["authorities", "library", "lcnaf", "lcsh", "fast", "geonames", "aat", "metadata"],
+  "keywords": ["authorities", "library", "lcnaf", "lcsh", "fast", "geonames", "homosaurus", "lcgft", "metadata"],
   "screenshots": [
     "assets/claude_example.jpg",
     "assets/claude_mcpb_install.jpg",

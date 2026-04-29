@@ -93,7 +93,7 @@ function buildAuthoritexAppHtml(): string {
 ${sdkBundle}
 
 const app = new ${appClass}(
-  { name: "AuthoritexApp", version: "0.1.0" },
+  { name: "AuthoritexApp", version: "0.1.1" },
   {},
   { autoResize: true }
 );

@@ -65,7 +65,7 @@ type OpenAuthoritexInput = {
 
 const server = new McpServer({
   name: "authoritex",
-  version: "0.1.0"
+  version: "0.1.1"
 });
 
 server.registerResource(
@@ -130,7 +130,7 @@ server.registerTool(
       authorityCode: z
         .string()
         .min(1)
-        .describe("Authority code such as lcnaf, lcsh, fast, geonames, or aat."),
+        .describe("Authority code such as lcnaf, lcsh, fast, geonames, homosaurus, lcgft, or lclang."),
       query: z.string().min(1).describe("Search query string."),
       maxResults: z
         .number()
@@ -168,7 +168,7 @@ registerAppTool(
         .string()
         .min(1)
         .optional()
-        .describe("Optional authority code to preselect, such as lcsh, lcnaf, fast, geonames, or aat."),
+        .describe("Optional authority code to preselect, such as lcsh, lcnaf, fast, geonames, homosaurus, lcgft, or lclang."),
       query: z.string().min(1).optional().describe("Optional search query to prefill and run."),
       maxResults: z
         .number()
@@ -286,7 +286,7 @@ server.registerTool(
       authorityCode: z
         .string()
         .min(1)
-        .describe("Authority code such as lcnaf, lcsh, fast, geonames, or aat."),
+        .describe("Authority code such as lcnaf, lcsh, fast, geonames, homosaurus, lcgft, or lclang."),
       query: z.string().min(1).describe("Search query string whose cached result should be deleted."),
       maxResults: z
         .number()

@@ -3,12 +3,12 @@
   "name": "io.github.nulib-labs/authoritex-mcp",
   "title": "Authoritex",
   "description": "Search and fetch normalized authority records from library vocabularies via AuthoritexJS.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@nulib/authoritex-mcp",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "transport": {
         "type": "stdio"
       },
